@@ -24,19 +24,8 @@
 
 
         <script>
-			function go1(){
-				// Création de la carte
-				var map = L.map('mapid', {
-					crs : L.geoportalCRS.EPSG2154
-				}).setView([48, 2], 10);
 
-				// Création de la couche
-				var lyr = L.geoportalLayer.WMTS({
-					layer  : "CADASTRALPARCELS.PARCELS.L93"
-				}) ;
 
-				lyr.addTo(map); // ou map.addLayer(lyr);
-			}
 			function go() {
 				// Création de la carte
 				var map  = L.map('mapid', {
@@ -45,11 +34,29 @@
 				});
 
 				// Création de la couche
-				var lyr = L.geoportalLayer.WMTS({
+				var cadastral = L.geoportalLayer.WMTS({
+					layer  : "CADASTRALPARCELS.PARCELS.L93"
+				}) ;
+
+				// Création de la couche
+				var orthophoto = L.geoportalLayer.WMTS({
 					layer  : "ORTHOIMAGERY.ORTHOPHOTOS"
 				}) ;
 
-				lyr.addTo(map); // ou map.addLayer(lyr);
+                var osmLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors',
+                    maxZoom: 19
+                });
+
+                var baseMaps = {
+                        "Cadastre": cadastral,
+                        "Photo": orthophoto,
+                        "OSM": osmLayer
+                };
+
+                L.control.layers(baseMaps).addTo(map);
+
+				osmLayer.addTo(map);
             }
 
             window.onload = function () {
@@ -57,19 +64,7 @@
 					serverUrl : "autoconf.json",
                     callbackSuffix : '',
 					onSuccess: function (response) {
-                        // votre utilisation de l'extension Géoportail pour OpenLayers
-						// Création de la carte
-						var map  = L.map('mapid', {
-							zoom : 10,
-							center : L.latLng(48, 2)
-						});
-
-						// Création de la couche
-						var lyr = L.geoportalLayer.WMTS({
-							layer  : "ORTHOIMAGERY.ORTHOPHOTOS"
-						}) ;
-
-				lyr.addTo(map); // ou map.addLayer(lyr);
+                        go();
                     }
 				}) ;
             }
@@ -80,10 +75,6 @@
 
 
 
-        var osmLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { // LIGNE 16
-            attribution: '© OpenStreetMap contributors',
-            maxZoom: 19
-        });
     mymap.addLayer(osmLayer);
     </script>
 -->
