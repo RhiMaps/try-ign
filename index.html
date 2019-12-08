@@ -57,19 +57,7 @@
 					serverUrl : "autoconf.json",
                     callbackSuffix : '',
 					onSuccess: function (response) {
-                        // votre utilisation de l'extension Géoportail pour OpenLayers
-						// Création de la carte
-						var map  = L.map('mapid', {
-							zoom : 10,
-							center : L.latLng(48, 2)
-						});
-
-						// Création de la couche
-						var lyr = L.geoportalLayer.WMTS({
-							layer  : "ORTHOIMAGERY.ORTHOPHOTOS"
-						}) ;
-
-				lyr.addTo(map); // ou map.addLayer(lyr);
+                        go1();
                     }
 				}) ;
             }
