@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Title of the document</title>
+    <link rel="stylesheet" href="leaflet/leaflet.css" type="text/css" />
+    <script src="leaflet/leaflet.js" type="text/javascript"></script>
+	<script src="GpPlugin/GpPluginLeaflet.js"></script>
+	<link rel="stylesheet" href="GpPlugin/GpPluginLeaflet.css" />
+    <style  type="text/css">
+	html, body {
+            height: 100%;
+            margin: 0;
+	}
+
+	#mapid {
+            min-height: 100%; 
+	}
+    </style>
+  </head>
+
+  <body>
+      <div id="mapid"><div/>
+
+
+        <script>
+			function go1(){
+				// Création de la carte
+				var map = L.map('mapid', {
+					crs : L.geoportalCRS.EPSG2154
+				}).setView([48, 2], 10);
+
+				// Création de la couche
+				var lyr = L.geoportalLayer.WMTS({
+					layer  : "CADASTRALPARCELS.PARCELS.L93"
+				}) ;
+
+				lyr.addTo(map); // ou map.addLayer(lyr);
+			}
+			function go() {
+				// Création de la carte
+				var map  = L.map('mapid', {
+					zoom : 10,
+					center : L.latLng(48, 2)
+				});
+
+				// Création de la couche
+				var lyr = L.geoportalLayer.WMTS({
+					layer  : "ORTHOIMAGERY.ORTHOPHOTOS"
+				}) ;
+
+				lyr.addTo(map); // ou map.addLayer(lyr);
+            }
+
+            window.onload = function () {
+				Gp.Services.getConfig({
+					serverUrl : "autoconf.json",
+                    callbackSuffix : '',
+					onSuccess: function (response) {
+                        // votre utilisation de l'extension Géoportail pour OpenLayers
+						// Création de la carte
+						var map  = L.map('mapid', {
+							zoom : 10,
+							center : L.latLng(48, 2)
+						});
+
+						// Création de la couche
+						var lyr = L.geoportalLayer.WMTS({
+							layer  : "ORTHOIMAGERY.ORTHOPHOTOS"
+						}) ;
+
+				lyr.addTo(map); // ou map.addLayer(lyr);
+                    }
+				}) ;
+            }
+        </script>
+<!--
+    <script type="text/javascript">
+        var mymap = L.map('mapid').setView([43.0607,2.2127], 12);
+
+
+
+        var osmLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { // LIGNE 16
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
+        });
+    mymap.addLayer(osmLayer);
+    </script>
+-->
+  </body>
+
+</html>
+
